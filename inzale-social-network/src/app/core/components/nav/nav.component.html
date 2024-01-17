@@ -1,34 +1,44 @@
-<aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-  <div class="flex flex-col h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-    <div>
-        <a class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group mb-12">
-          <!-- <span class="ms-3">INLAZE APP</span> -->
-        </a>
-    </div>
-
-    <div class="my-8 flex flex-col gap-y-2 items-start">
-          <!-- <div class="ms-3">{{ fullname }}</div>
-          <div class="ms-3 text-sm">Edad: {{ age }}</div> -->
-    </div>
-
-     <nav class="flex flex-col justify-between h-full space-y-2 font-medium mt-12">
-        <div>
+<aside id="default-sidebar"
+  class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+  aria-label="Sidebar">
+  <div class="flex flex-col justify-between h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+    <section class="flex pt-4">
+      <span class="grid h-10 w-full place-content-center rounded-lg bg-gray-100 text-xs text-gray-600">
+        <h2 class="font-bold text-2xl text-center w-full tracking-tighter	">INLAZE<span
+            class="text-indigo-500">APP</span>
+        </h2>
+      </span>
+    </section>
+    <section class="flex flex-col w-full gap-y-4">
+      <ul class="space-y-1">
+        <li>
+          <a routerLink="/inicio" class="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700">Inicio</a>
+        </li>
+        <li>
+          <a routerLink="/perfil"
+            class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700">Perfil</a>
+        </li>
+      </ul>
+    </section>
+    <section class="flex flex-col w-full overflow-hidden">
+      <div class="sticky inset-x-0 bottom-0 border-t border-gray-100">
+        <div class="flex items-center justify-between gap-2 p-4 hover:bg-gray-50">
           <div>
-             <a [routerLink]="['/inicio']" routerLinkActive="active"  class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <span class="flex-1 ms-3 whitespace-nowrap">Inicio</span>
-             </a>
+            <p class="text-xs">
+              <strong class="block font-medium">{{ fullname | titlecase }}</strong>
+              <span>Edad: {{ age }} </span>
+            </p>
           </div>
-          <div>
-             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <span class="flex-1 ms-3 whitespace-nowrap">Perfil</span>
-             </a>
+          <div class="flex justify-center hover:text-white rounded cursor-pointer transition py-2 w-10">
+            <div class="sticky inset-x-0 bottom-0">
+              <button class="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-gray-500 hover:text-gray-700" (click)="handleLogout()">
+                <app-icon-logout></app-icon-logout>
+              </button>
+            </div>
           </div>
         </div>
-        <div>
-           <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-              <span class="flex-1 ms-3 whitespace-nowrap">Cerrar sesión</span>
-           </a>
-        </div>
-     </nav>
+      </div>
+
+    </section>
   </div>
 </aside>

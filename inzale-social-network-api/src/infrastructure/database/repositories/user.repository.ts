@@ -38,7 +38,7 @@ export default class UserRepository implements IUserRepository {
     }
 
     async findByEmail(email: string): Promise<User> {
-        return await this.userRepository.createQueryBuilder("users").select(['users.id','users.password','users.email'])
+        return await this.userRepository.createQueryBuilder("users").select(['users.id','users.password','users.email','users.fullname','users.age'])
             .where("users.email= :email", { email: email })
             .getOne();
     }

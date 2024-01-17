@@ -25,7 +25,7 @@ export class AuthService implements IAuthService {
         const findUser = await this._userRepository.findByEmail(email);
         if (!findUser) throw new NotFoundException('No existe un usuario con ese email');
         
-        const { id, fullname, age, password:passwordHash } = await findUser;
+        const { id, fullname, age, password:passwordHash } = findUser;
         const checkPassword = await compareHash(password, passwordHash);
         if (!checkPassword) throw new HttpException('Contraseña incorrecta', 403)
 

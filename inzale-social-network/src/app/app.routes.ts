@@ -1,21 +1,30 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
 import { RegisterComponent } from './features/auth/register/register.component';
-import { HomeComponent } from './core/components/home/home.component';
 import { authGuard } from './shared/guards/auth.guard';
 import { loginGuard } from './shared/guards/login.guard';
 import { LayoutComponent } from './core/components/layout/layout.component';
+import { HomeComponent } from './core/components/home/home.component';
+import { UserComponent } from './features/user/user.component';
 
 export const routes: Routes = [
   {
-    path:'inicio',
+    path: '',
+    redirectTo: 'inicio',
+    pathMatch: 'full'
+  },
+  {
+    path:'',
     component:LayoutComponent,
     canActivate: [authGuard],
-    canActivateChild: [authGuard],
     children: [
       {
-        path:'',
+        path:'inicio',
         component: HomeComponent,
+      },
+      {
+        path:'perfil',
+        component: UserComponent,
       }
     ]
   },

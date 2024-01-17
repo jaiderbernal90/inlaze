@@ -1,1 +1,19 @@
-<p>home works!</p>
+
+<div class="bg-white">
+  <div class="mx-auto max-w-2xl px-4 pb-16 sm:px-6 sm:pb-24 lg:max-w-7xl lg:px-8">
+    <app-form-post [idUserAuth]="idUserAuth" (reloadData)="onChangeData({ take: 10 })"></app-form-post>
+    <h2 class="text-2xl font-bold tracking-tight text-gray-900">Publicaciones</h2>
+    <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 xl:grid-cols-2 xl:gap-x-8"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScrollDown()">
+      @for (item of posts; track $index) {
+        <app-post [post]="item" [idUserAuth]="idUserAuth" (reloadData)="onChangeData({ take: 10 })"></app-post>
+      } @empty {
+        <p> No hay post en tu muro. </p>
+      }
+    </div>
+
+  </div>
+</div>

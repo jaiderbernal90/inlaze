@@ -17,5 +17,5 @@ export interface RegisterForm {
 export interface UserTokenDecode {
   id?: number;
   fullname?: string;
-  age?: string;
+  age?: number;
 }

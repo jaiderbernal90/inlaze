@@ -38,6 +38,10 @@ export class JwtService {
     return this.jwtHelper.decodeToken(token);
   }
 
+  public getIdUserToken(): number | undefined {
+    return this.getUserToken()?.id;
+  }
+
   public setterSettings = (token: string): void => this._cookieSvc.set('token', token, 2,'/');
   public clearCookies = ():void => this._cookieSvc.delete('token');
   public getCookie = (key:string) => this._cookieSvc.get(key);

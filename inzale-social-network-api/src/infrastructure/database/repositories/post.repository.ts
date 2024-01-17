@@ -14,7 +14,7 @@ export default class PostRepository implements IPostRepository {
     async findAll(pageOptionsDto: PageOptionsDto): Promise<SelectQueryBuilder<Post>> {
         return this.postRepository.createQueryBuilder("post")
             .leftJoinAndSelect('post.user', 'user')
-            .orderBy("post.id", pageOptionsDto.order)
+            .orderBy("post.created", (pageOptionsDto.order || "DESC"))
             .skip(pageOptionsDto.skip)
             .take(pageOptionsDto.take);
     }

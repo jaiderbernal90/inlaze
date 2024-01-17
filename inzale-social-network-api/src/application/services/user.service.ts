@@ -36,6 +36,10 @@ export class UserService implements IUserService {
         const data = await this.repository.findOne(id);
         
         if (!data) throw new NotFoundException({message: 'No existe el usuario solicitado'});
+
+        const { password } = body;
+        const plainToHash = await generateHash(password);
+        body = {...body, password:plainToHash};
         
         await this.repository.update(id, body);
         
