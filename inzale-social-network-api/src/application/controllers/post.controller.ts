@@ -1,14 +1,16 @@
-import { Body, Controller, Delete, Get, HttpCode, Inject, Param, ParseIntPipe, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Inject, Param, ParseIntPipe, Post, Put, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiPaginatedResponse } from '../utils/constants';
 import { PageOptionsDto } from '../dto/page-options.dto';
 import { PageDto } from '../dto/page.dto';
 import { IResponse } from '../interfaces/IResponse.interface';
 import { ListPostDto } from '../dto/post/list-post.dto';
-import { CreatePostDto } from '../dto/post/create-post.dto';
+import { CreatePostDto, UpdateLikePostDto } from '../dto/post/create-post.dto';
 import { UpdatePostDto } from '../dto/post/update-post.dto';
 import { IPostService } from '../interfaces/services/IPostService.interface';
+import { JwtAuthGuard } from '../utils/guards/jwt-auth.guard';
 
 @Controller('posts')
+@UseGuards(JwtAuthGuard)
 export class PostController {
 
   constructor(@Inject('POST_SERVICE_TOKEN') private readonly service: IPostService) { }
@@ -24,6 +26,12 @@ export class PostController {
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return await this.service.findOne(id);
+  }
+
+  @HttpCode(200)
+  @Post('update-likes')
+  async updateLike(@Body() dto: UpdateLikePostDto) {
+    return await this.service.updateLikes(dto);
   }
 
   @HttpCode(201)

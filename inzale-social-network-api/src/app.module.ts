@@ -6,7 +6,6 @@ import { AuthService } from './application/services/auth.service';
 import { AuthController } from './application/controllers/auth.controller';
 import { AUTH_SERVICE_TOKEN } from './application/interfaces/services/IAuthService.interface';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './application/utils/constants';
 import { UserService } from './application/services/user.service';
 import { USER_SERVICE_TOKEN } from './application/interfaces/services/IUserService.interface';
 import { UserController } from './application/controllers/user.controller';
@@ -20,6 +19,7 @@ import { PostService } from './application/services/post.service';
 import PostRepository from './infrastructure/database/repositories/post.repository';
 import { PostController } from './application/controllers/post.controller';
 import { Post } from './domain/entities/post.entity';
+import { JwtStrategy } from './application/utils/strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -29,7 +29,7 @@ import { Post } from './domain/entities/post.entity';
     }),
     JwtModule.register({
       global: true,
-      secret: jwtConstants.secret,
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '4h' },
     }),
     TypeOrmModule.forRoot({
@@ -48,6 +48,7 @@ import { Post } from './domain/entities/post.entity';
   controllers: [AppController, AuthController, UserController, PostController],
   providers: [
     AppService,
+    JwtStrategy,
     PostRepository,
     UserRepository,
     {

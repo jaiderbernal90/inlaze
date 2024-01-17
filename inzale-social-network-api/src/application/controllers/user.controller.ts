@@ -1,5 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Inject, Param, ParseIntPipe, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
-import { LoginAuthDto } from '../dto/auth/login-auth.dto';
+import { Body, Controller, Delete, Get, HttpCode, Inject, Param, ParseIntPipe, Post, Put, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateUserDto } from '../dto/user/create-user.dto';
 import { ApiPaginatedResponse } from '../utils/constants';
 import { PageOptionsDto } from '../dto/page-options.dto';
@@ -8,8 +7,10 @@ import { IUserService } from '../interfaces/services/IUserService.interface';
 import { ListUserDto } from '../dto/user/list-user.dto';
 import { IResponse } from '../interfaces/IResponse.interface';
 import { UpdateUserDto } from '../dto/user/update-user.dto';
+import { JwtAuthGuard } from '../utils/guards/jwt-auth.guard';
 
 @Controller('users')
+@UseGuards(JwtAuthGuard)
 export class UserController {
 
     constructor(@Inject('USER_SERVICE_TOKEN') private readonly service: IUserService) { }

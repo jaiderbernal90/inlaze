@@ -1,10 +1,6 @@
 import { Type, applyDecorators } from "@nestjs/common";
 import { ApiExtraModels, ApiOkResponse, getSchemaPath } from "@nestjs/swagger";
 import { PageDto } from "../dto/page.dto";
-
-export const jwtConstants = {
-    secret: process.env.JWT,
-};
 export enum Order {
     ASC = "ASC",
     DESC = "DESC",

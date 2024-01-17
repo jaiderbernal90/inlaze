@@ -7,7 +7,8 @@ import PostRepository from 'src/infrastructure/database/repositories/post.reposi
 import { IPostService } from '../interfaces/services/IPostService.interface';
 import { ListPostDto } from '../dto/post/list-post.dto';
 import { UpdatePostDto } from '../dto/post/update-post.dto';
-import { CreatePostDto } from '../dto/post/create-post.dto';
+import { CreatePostDto, LikesDto, UpdateLikePostDto } from '../dto/post/create-post.dto';
+import { Post } from 'src/domain/entities/post.entity';
 
 @Injectable()
 export class PostService implements IPostService {
@@ -31,6 +32,31 @@ export class PostService implements IPostService {
         return data;
     }
 
+    async updateLikes(body: UpdateLikePostDto): Promise<LikesDto> {
+        const { id, increment } = body;
+        const post = await this.findPostById(id);
+
+        if (!post.likes && !increment) return { likes: 0 };
+
+        this.updatePostLikes(post, increment);
+        await this.repository.addOrRemoveLikeByPost(post);
+
+        return { likes: post.likes };
+    }
+
+    private updatePostLikes(post: Post, increment: boolean): void {
+        post.likes = increment ? post.likes + 1 : post.likes - 1;
+    }
+
+
+    private async findPostById(id: number): Promise<Post> {
+        const post = await this.repository.findOne(id);
+        if (!post) {
+            throw new NotFoundException('Post not found');
+        }
+        return post;
+    }
+    
     async update(id: number, body: UpdatePostDto): Promise<IResponse<ListPostDto>> {   
         const data = await this.repository.findOne(id);
         

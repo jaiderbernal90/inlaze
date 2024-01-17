@@ -14,3 +14,18 @@ export class CreatePostDto {
     @IsNotEmpty()
     user_id: number;
 }
+
+export class UpdateLikePostDto {
+    @IsInt()
+    @IsNotEmpty()
+    id:number;
+
+    @IsBoolean()
+    @IsNotEmpty()
+    increment:boolean;
+}
+
+export class LikesDto{
+    @IsInt()
+    likes:number
+}

@@ -8,4 +8,5 @@ import { Post } from "../entities/post.entity";
 export interface IPostRepository extends ICrudRepository<ListPostDto>{
     create(body: CreatePostDto): Promise<Post>;
     update(id:number, body: UpdatePostDto): Promise<UpdateResult>;
+    addOrRemoveLikeByPost(post:Post): Promise<Post>;
  } 

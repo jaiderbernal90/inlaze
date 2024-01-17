@@ -36,4 +36,10 @@ export default class UserRepository implements IUserRepository {
     async update(id:number, body: UpdateUserDto): Promise<UpdateResult> {
         return await this.userRepository.update(id, body);
     }
+
+    async findByEmail(email: string): Promise<User> {
+        return await this.userRepository.createQueryBuilder("users").select(['users.id','users.password','users.email'])
+            .where("users.email= :email", { email: email })
+            .getOne();
+    }
 }

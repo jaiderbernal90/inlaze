@@ -8,7 +8,7 @@ import UserRepository from 'src/infrastructure/database/repositories/user.reposi
 import { UpdateUserDto } from '../dto/user/update-user.dto';
 import { CreateUserDto } from '../dto/user/create-user.dto';
 import { IResponse } from '../interfaces/IResponse.interface';
-import { hash } from 'bcrypt';
+import { generateHash } from '../utils/handleBcrypt';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -44,7 +44,7 @@ export class UserService implements IUserService {
 
     async create(body: CreateUserDto): Promise<IResponse<ListUserDto>> {
         const { password } = body;
-        const plainToHash = await hash(password, 10);
+        const plainToHash = await generateHash(password);
         body = {...body, password:plainToHash};
         
         const data = await this.repository.create(body);
