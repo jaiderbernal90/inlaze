@@ -2,13 +2,19 @@
 module.exports = {
   content: [
     "./src/**/*.{html,ts}",
+    "./node_modules/flowbite/**/*.js"
   ],
   theme: {
     extend: {
-      colors: {
-        primary: "",
+      letterSpacing: {
+        tightest: '-.075em',
+      },
+      fontFamily: {
+        'body': ['"Open Sans"', ]
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
 }

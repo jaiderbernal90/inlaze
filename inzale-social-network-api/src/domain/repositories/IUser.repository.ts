@@ -9,5 +9,4 @@ export interface IUserRepository extends ICrudRepository<ListUserDto>{
     create(body: CreateUserDto): Promise<ListUserDto>;
     update(id:number, body: UpdateUserDto): Promise<UpdateResult>;
     findByEmail(email:string): Promise<User>
-    
 } 

@@ -4,9 +4,12 @@ import { LoginDto } from '../dto/auth/login.dto';
 import { RegisterDto } from '../dto/auth/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import { hash, compare } from 'bcrypt';
-import UserRepository from '../../infrastructure/database/repositories/user.repository';
 import { IResponseToken } from '../interfaces/IResponseToken.interface';
-import { compareHash } from '../utils/handleBcrypt';
+import { compareHash, generateHash } from '../utils/handleBcrypt';
+import { User } from 'src/domain/entities/user.entity';
+import UserRepository from 'src/infrastructure/database/repositories/user.repository';
+import { IResponse } from '../interfaces/IResponse.interface';
+import { ListUserDto } from '../dto/user/list-user.dto';
 
 @Injectable()
 export class AuthService implements IAuthService {
@@ -20,15 +23,9 @@ export class AuthService implements IAuthService {
         const { email, password } = dataLogin;
 
         const findUser = await this._userRepository.findByEmail(email);
-        const { id, fullname, age, password:passwordHash } = await findUser;
-
         if (!findUser) throw new NotFoundException('No existe un usuario con ese email');
         
-        console.log('password -> ', password);
-            // passwordHash);
-            console.log('passwordHash -> ', passwordHash);
-            
-        
+        const { id, fullname, age, password:passwordHash } = await findUser;
         const checkPassword = await compareHash(password, passwordHash);
         if (!checkPassword) throw new HttpException('Contraseña incorrecta', 403)
 
@@ -39,7 +36,13 @@ export class AuthService implements IAuthService {
     }
 
 
-    public register(user: RegisterDto): Promise<number> {
-        return;
+    public async register(user: RegisterDto): Promise<IResponse<ListUserDto>> {
+        const { password } = user;
+        const plainToHash = await generateHash(password);
+        user = {...user, password:plainToHash};
+        
+        const data = await this._userRepository.create(user);
+    
+        return { message: 'Usuario registrado exitosamente', data: data };
     }
 }
